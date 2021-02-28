@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+
+{% block header_extends %}
+    <link rel="stylesheet" href="/static/base.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6 login" style="margin-top: 6em;margin-left: 18em">
+                <div class="card text-dark bg-light mb-3">
+                    <div class="card-header">
+                        <h3>{{ form_title }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {% if not field.is_hidden %}
+                                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% endif %}
+                                {{ field }}
+                                <p class="text-danger">{{ field.errors.as_text }}</p>
+                            {% endfor %}
+                            <span id="tip" class="text-danger">{{ form.non_field_errors }}</span>
+                            <div class="clearfix"></div>
+                            <div class="float_left">
+                                {% block other_buttons %}{% endblock %}
+                            </div>
+                            <div class="float-right">
+                                <input type="submit" value="{{ submit_text }}" class="btn btn-primary" >
+                                <button class="btn btn-secondary" onclick="window.location.href='{{ return_back_url }}'">返回</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
